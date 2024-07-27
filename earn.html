@@ -20,7 +20,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background: rgba(255, 255, 255, 0.2);
+        background: none;
         padding: 20px;
         border-radius: 10px;
         backdrop-filter: blur(10px);
@@ -33,7 +33,7 @@
         border-radius: 5px;
         border: none;
         outline: none;
-        text-align: center;
+        text-align: left;
     }
 
     .dockButton {
@@ -42,7 +42,7 @@
         margin: 10px;
         background: rgba(255, 255, 255, 0.2);
         border: none;
-        border-radius: 10px;
+        border-radius: 20px;
         cursor: pointer;
         transition: background-color 0.2s, color 0.2s;
         opacity: 0.8;
@@ -78,7 +78,7 @@
 <button id="backButton" onclick="window.location.href='index.html'">🔙 Back</button>
 <div id="earnContainer">
     <h2 style="color: white;">Enter Code to Earn Coins</h2>
-    <input type="text" id="codeInput" placeholder="Enter your code">
+    <input type="text" id="codeInput" placeholder="Enter code here">
     <button class="dockButton" onclick="checkCode()">Check</button>
     <button id="getCodeButton" class="dockButton" onclick="getMoreCodes()">Get Codes</button>
 </div>
@@ -98,10 +98,10 @@
     function checkCode() {
         const codeInput = document.getElementById("codeInput").value.trim();
         if (validCodes.includes(codeInput) && !usedCodes.includes(codeInput)) {
-            coin += 1000000;
+            coin += 500000;
             usedCodes.push(codeInput);
             localStorage.setItem("usedCodes", JSON.stringify(usedCodes));
-            alert('Congratulations! You earned 1,000,000 coins.');
+            alert('Congratulations! You earned 500,000 coins.');
             updateScore();
         } else {
             alert('Wrong code or code already used.');
