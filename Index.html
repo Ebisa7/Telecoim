@@ -166,16 +166,16 @@
 
         setTimeout(function () {
             flyingNumber.remove();
-        }, 50); // Faster removal for quick tapping
+        }, 1000); // Faster removal for quick tapping
     }
 
     function apply3DEffect(x, y) {
         let rect = document.getElementById("circle").getBoundingClientRect();
-        let centerX = rect.left + rect.width / 2;
-        let centerY = rect.top + rect.height / 2;
+        let centerX = rect.left + rect.width / 10;
+        let centerY = rect.top + rect.height / 10;
         let deltaX = x - centerX;
         let deltaY = y - centerY;
-        document.getElementById("circle").style.transform = `rotateX(${deltaY / 20}deg) rotateY(${deltaX / 20}deg)`;
+        document.getElementById("circle").style.transform = `rotateX(${deltaY / 50}deg) rotateY(${deltaX / 50}deg)`;
         
         setTimeout(() => {
             document.getElementById("circle").style.transform = '';
@@ -222,7 +222,7 @@
         localStorage.setItem("circleGameBackground", background);
     }
 
-    setInterval(recoverBattery, 1000); // Recover 1 battery per second
+    setInterval(recoverBattery, 1000); // Recover 3 battery per second
 
     // Initial setup
     updateScore();
