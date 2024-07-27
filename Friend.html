@@ -59,14 +59,15 @@
     document.getElementById("generateButton").addEventListener("click", generateReferralLink);
 
     function generateReferralLink() {
-        const referralCode = Math.random().toString(36).substring(2, 15); // Random referral code
-        const referralLink = `${window.location.origin}/friend.html?ref=${referralCode}`;
+        const userId = localStorage.getItem("userId") || Math.random().toString(36).substring(2, 15); // Generate a user ID if not exists
+        localStorage.setItem("userId", userId);
+
+        const referralLink = `https://t.me/YOUR_BOT_NAME?start=${userId}`;
         
         document.getElementById("referralLink").innerText = referralLink;
         document.getElementById("shareButton").style.display = "block";
 
         // Store the referral link in local storage
-        localStorage.setItem("referralCode", referralCode);
         localStorage.setItem("referralLink", referralLink);
     }
 
