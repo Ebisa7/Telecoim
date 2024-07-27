@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Invite Friends</title>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, black, #cd7f32);
+        overflow: hidden;
+        padding: 0 10px;
+        color: white;
+    }
+
+    #container {
+        text-align: center;
+    }
+
+    #referralLink {
+        font-size: 16px;
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+        word-wrap: break-word;
+    }
+
+    #generateButton, #shareButton {
+        font-size: 20px;
+        padding: 10px;
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        opacity: 0.8;
+        color: white;
+        text-align: center;
+        margin: 10px;
+    }
+</style>
+</head>
+<body>
+<div id="container">
+    <h1>Invite Friends</h1>
+    <div id="referralLink">Your referral link will appear here.</div>
+    <button id="generateButton">Generate Referral Link</button>
+    <button id="shareButton" style="display:none;">Share Referral Link</button>
+</div>
+
+<script>
+    document.getElementById("generateButton").addEventListener("click", generateReferralLink);
+
+    function generateReferralLink() {
+        const referralCode = Math.random().toString(36).substring(2, 15); // Random referral code
+        const referralLink = `${window.location.origin}/friend.html?ref=${referralCode}`;
+        
+        document.getElementById("referralLink").innerText = referralLink;
+        document.getElementById("shareButton").style.display = "block";
+
+        // Store the referral link in local storage
+        localStorage.setItem("referralCode", referralCode);
+        localStorage.setItem("referralLink", referralLink);
+    }
+
+    document.getElementById("shareButton").addEventListener("click", shareReferralLink);
+
+    function shareReferralLink() {
+        const referralLink = localStorage.getItem("referralLink");
+        if (referralLink) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join me on Telegram!',
+                    text: 'Join me on Telegram using my referral link:',
+                    url: referralLink,
+                }).then(() => {
+                    console.log('Referral link shared successfully.');
+                }).catch((error) => {
+                    console.error('Error sharing referral link:', error);
+                });
+            } else {
+                alert('Web Share API is not supported in your browser. Please copy the link manually.');
+            }
+        }
+    }
+
+    // Check for referral query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get('ref');
+    if (ref) {
+        handleReferral(ref);
+    }
+
+    function handleReferral(referralCode) {
+        // Logic to handle the referral
+        // Here we will simply add a coin to the balance if the referral is valid
+        let coin = parseInt(localStorage.getItem("circleGameCoin")) || 0;
+        coin += 1;
+        localStorage.setItem("circleGameCoin", coin);
+
+        alert('Referral successful! You have earned a coin.');
+    }
+</script>
+</body>
+</html>
