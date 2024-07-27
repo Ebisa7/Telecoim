@@ -76,19 +76,8 @@
     function shareReferralLink() {
         const referralLink = localStorage.getItem("referralLink");
         if (referralLink) {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Join me on Telegram!',
-                    text: 'Join me on Telegram using my referral link:',
-                    url: referralLink,
-                }).then(() => {
-                    console.log('Referral link shared successfully.');
-                }).catch((error) => {
-                    console.error('Error sharing referral link:', error);
-                });
-            } else {
-                alert('Web Share API is not supported in your browser. Please copy the link manually.');
-            }
+            const telegramShareLink = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=Join%20me%20on%20Telegram!`;
+            window.location.href = telegramShareLink;
         }
     }
 
