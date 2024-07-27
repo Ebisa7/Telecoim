@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -15,32 +15,37 @@
         font-family: Arial, sans-serif;
         background: linear-gradient(to bottom, black, #cd7f32); /* Default bronze gradient background */
         overflow: hidden; /* Prevent scrolling */
+        padding: 0 10px;
     }
 
     #circle {
-        width: calc(80vw - 20px); /* Adjusted to fit the width of a mobile device */
-        height: calc(80vw - 20px); /* Adjusted to fit the width of a mobile device */
+        width: 80vw; /* Adjusted to fit the width of a mobile device */
+        height: 80vw; /* Adjusted to fit the width of a mobile device */
         border-radius: 50%;
         background-image: url('photo_2024-06-22_10-15-30.jpg'); /* Image background */
         background-size: cover; /* Ensure the image covers the circle */
         cursor: pointer;
         position: relative;
         margin-bottom: 20px;
-        transition: transform 0.5s; /* For 3D effect */
+        transition: transform 0.2s, width 0.2s, height 0.2s; /* For 3D effect and bounce animation */
+    }
+
+    #circle:active {
+        transform: scale(0.8);
     }
 
     #score {
         font-size: 40px;
         color: #ffffff;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        margin-bottom: 27px;
+        margin-bottom: 10px;
     }
 
     #level {
         font-size: 18px;
         color: #ffffff;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        margin-bottom: 18px;
+        margin-bottom: 10px;
     }
 
     .flyingNumber {
@@ -62,7 +67,7 @@
     }
 
     #batteryContainer {
-        width: 200px; /* Fixed width for battery bar */
+        width: 80vw; /* Fixed width for battery bar */
         height: 20px; /* Fixed height for battery bar */
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
@@ -86,19 +91,20 @@
 
     #dock {
         display: flex;
-        justify-content: center;
+        justify-content: space-around; /* Evenly space buttons */
         align-items: center;
         background: rgba(255, 255, 255, 0.2);
         backdrop-filter: blur(50px);
         border-radius: 20px;
         padding: 10px;
         margin-top: 20px;
+        width: 90vw; /* Ensure it fits within the viewport width */
     }
 
     .dockButton {
-        font-size: 18px;
-        padding: 10px 20px;
-        margin: 0 10px;
+        font-size: 14px;
+        padding: 10px;
+        margin: 5px; /* Adjusted for wrapping */
         background: rgba(255, 255, 255, 0.2);
         border: none;
         border-radius: 15px;
@@ -107,6 +113,14 @@
         opacity: 0.8;
         color: white;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dockButton span {
+        font-size: 12px;
     }
 </style>
 </head>
@@ -119,8 +133,18 @@
     <div id="battery" style="width: 100%;"></div>
 </div>
 <div id="dock">
-    <button class="dockButton" onclick="window.location.href='earn.html'">💰 Earn</button>
-    <button class="dockButton" onclick="window.location.href='boost.html'">🚀 Boost</button>
+    <button class="dockButton" onclick="window.location.href='earn.html'">
+        💰<span>Earn</span>
+    </button>
+    <button class="dockButton" onclick="window.location.href='boost.html'">
+        🚀<span>Boost</span>
+    </button>
+    <button class="dockButton" onclick="window.location.href='friend.html'">
+        👥<span>Friends</span>
+    </button>
+    <button class="dockButton" onclick="window.location.href='wallet.html'">
+        👛<span>Wallet</span>
+    </button>
 </div>
 
 <script>
@@ -151,6 +175,7 @@
                 updateFlyingNumber(boostFactor, touch.clientX, touch.clientY);
             }
             apply3DEffect(event.touches[0].clientX, event.touches[0].clientY);
+            bounceCircle();
         } else {
             alert('Not enough battery!');
         }
@@ -176,10 +201,20 @@
         let deltaX = x - centerX;
         let deltaY = y - centerY;
         document.getElementById("circle").style.transform = `rotateX(${deltaY / 20}deg) rotateY(${deltaX / 20}deg)`;
-        
+
         setTimeout(() => {
             document.getElementById("circle").style.transform = '';
         }, 100);
+    }
+
+    function bounceCircle() {
+        let circle = document.getElementById("circle");
+        circle.style.transition = 'transform 0.2s';
+        circle.style.transform = 'scale(0.8)';
+
+        setTimeout(() => {
+            circle.style.transform = 'scale(1)';
+        }, 200);
     }
 
     function updateBattery() {
@@ -229,4 +264,3 @@
 </script>
 </body>
 </html>
-
