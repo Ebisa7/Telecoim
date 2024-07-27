@@ -62,7 +62,7 @@
         const userId = localStorage.getItem("userId") || Math.random().toString(36).substring(2, 15); // Generate a user ID if not exists
         localStorage.setItem("userId", userId);
 
-        const referralLink = `https://t.me/YOUR_BOT_NAME?start=${userId}`;
+        const referralLink = `https://t.me/teletap_coinbot?start=${userId}`;
         
         document.getElementById("referralLink").innerText = referralLink;
         document.getElementById("shareButton").style.display = "block";
