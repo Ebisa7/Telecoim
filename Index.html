@@ -120,13 +120,7 @@
 </div>
 <div id="dock">
     <button class="dockButton" onclick="window.location.href='earn.html'"></button>
-        <div class="emoji">💰</div>
-        <div class="text">earn</div>
-        </button>
     <button class="dockButton" onclick="window.location.href='boost.html'"></button>
-            <div class="emoji">🚀</div>
-        <div class="text">boost</div>
-</button>
 </div>
 
 <script>
@@ -135,8 +129,7 @@
     let battery = parseInt(localStorage.getItem("circleGameBattery")) || 1000;
     let maxBattery = parseInt(localStorage.getItem("circleGameMaxBattery")) || 1000;
 
-    function updateScore() {
-        document.getElementById("scoreValue").innerText = coin;
+    fun   document.getElementById("scoreValue").innerText = coin;
         localStorage.setItem("circleGameCoin", coin);
         localStorage.setItem("circleGameBoostFactor", boostFactor);
         localStorage.setItem("circleGameBattery", battery);
