@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Circle Tapping Game</title>
+<title>Tele coin</title>
 <style>
     body {
         display: flex;
@@ -101,10 +101,10 @@
         margin: 0 10px;
         background: rgba(255, 255, 255, 0.2);
         border: none;
-        border-radius: 10px;
+        border-radius: 20px;
         cursor: pointer;
         transition: background-color 0.2s, color 0.2s;
-        opacity: 0.8;
+        opacity: 1;
         color: white;
         text-align: center;
     }
@@ -124,7 +124,7 @@
 </div>
 
 <script>
-    let coin = parseInt(localStorage.getItem("circleGameCoin")) || 0;
+    let coin = parseInt(localStorage.getItem("circleGameCoin")) || 2500;
     let boostFactor = parseInt(localStorage.getItem("circleGameBoostFactor")) || 1;
     let battery = parseInt(localStorage.getItem("circleGameBattery")) || 1000;
     let maxBattery = parseInt(localStorage.getItem("circleGameMaxBattery")) || 1000;
@@ -166,7 +166,7 @@
 
         setTimeout(function () {
             flyingNumber.remove();
-        }, 500); // Faster removal for quick tapping
+        }, 50); // Faster removal for quick tapping
     }
 
     function apply3DEffect(x, y) {
