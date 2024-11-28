@@ -1,34 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegram Settings Button Example</title>
-  <script src="https://telegram.org/js/telegram-web-app.js?2"></script>
-  <script>
-    const DemoApp = {
-      toggleSettingsButton: function (button) {
-        if (Telegram.WebApp.MainButton.isVisible) {
-          Telegram.WebApp.showSettingsButton(false);
-          button.textContent = "Show Settings Button";
-        } else {
-          Telegram.WebApp.showSettingsButton(true);
-          Telegram.WebApp.onEvent('settingsButtonClicked', function () {
-            Telegram.WebApp.openLink("https://www.google.com");
-          });
-          button.textContent = "Hide Settings Button";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Telegram WebApp</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            transition: background-color 0.2s ease;
         }
-      }
-    };
-  </script>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        #settingsButton {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        #settingsButton:hover {
+            opacity: 0.9;
+        }
+        #settingsPanel {
+            width: 100%;
+            background-color: var(--tg-theme-secondary-bg-color);
+            border-radius: 8px;
+            padding: 16px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+        .setting-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .setting-item input {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Telegram Web App Example</h1>
-  <p>Toggle the Telegram settings button visibility below:</p>
-  <button onclick="DemoApp.toggleSettingsButton(this);">Show Settings Button</button>
+    <div class="container">
+        <button id="settingsButton">Open Settings</button>
+        
+        <div id="settingsPanel">
+            <div class="setting-item">
+                <input type="checkbox" id="notification">
+                <label for="notification">Enable Notifications</label>
+            </div>
+            <div class="setting-item">
+                <input type="checkbox" id="darkMode">
+                <label for="darkMode">Dark Mode</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Telegram WebApp Initialization
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        // Theme Handling
+        document.body.style.backgroundColor = tg.themeParams.bg_color || '#ffffff';
+        document.body.style.color = tg.themeParams.text_color || '#000000';
+
+        // Settings Button
+        const settingsButton = document.getElementById('settingsButton');
+        const settingsPanel = document.getElementById('settingsPanel');
+        let isSettingsOpen = false;
+
+        settingsButton.addEventListener('click', () => {
+            isSettingsOpen = !isSettingsOpen;
+            settingsPanel.style.display = isSettingsOpen ? 'block' : 'none';
+            
+            // Optional: Haptic feedback
+            tg.HapticFeedback.impactOccurred('light');
+        });
+
+        // Settings Interactions
+        const notificationCheckbox = document.getElementById('notification');
+        const darkModeCheckbox = document.getElementById('darkMode');
+
+        notificationCheckbox.addEventListener('change', (e) => {
+            tg.sendData(JSON.stringify({
+                type: 'notification',
+                enabled: e.target.checked
+            }));
+        });
+
+        darkModeCheckbox.addEventListener('change', (e) => {
+            const isDarkMode = e.target.checked;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            tg.sendData(JSON.stringify({
+                type: 'theme',
+                darkMode: isDarkMode
+            }));
+        });
+
+        // Close Button Configuration
+        tg.onEvent('mainButtonClicked', () => {
+            tg.close();
+        });
+
+        // Optional: Main Button Setup
+        tg.MainButton.text = 'Close App';
+        tg.MainButton.show();
+    </script>
 </body>
-  <style>
-    body {
-      background-color: white;
-  </style>
 </html>
