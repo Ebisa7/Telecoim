@@ -3,27 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings Button Example</title>
+    <title>Telegram Web App Settings Button</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+        }
+        .settings-container {
+            text-align: center;
+        }
+    </style>
     <script>
+        // Settings button state
+        let isSettingsEnabled = false;
+
         window.onload = function() {
             const tg = window.Telegram.WebApp;
+            
+            // Configure settings button
+            function configureSettingsButton() {
+                // Show the settings button
+                tg.settingsButton.show();
 
-            // Show the settings button
-            tg.settingsButton.show();
+                // Toggle settings button state
+                tg.settingsButton.onClick(() => {
+                    isSettingsEnabled = !isSettingsEnabled;
+                    
+                    // Update button appearance based on state
+                    if (isSettingsEnabled) {
+                        tg.settingsButton.setText('Disable');
+                        tg.settingsButton.setColor('#FF0000');
+                        
+                        // Additional actions when enabled
+                        console.log('Settings Enabled');
+                        updateSettingsStatus('Enabled');
+                    } else {
+                        tg.settingsButton.setText('Enable');
+                        tg.settingsButton.setColor('#00FF00');
+                        
+                        // Additional actions when disabled
+                        console.log('Settings Disabled');
+                        updateSettingsStatus('Disabled');
+                    }
+                });
+            }
 
-            // Set an event handler for when the settings button is clicked
-            tg.settingsButton.onClick(() => {
-                // Open your settings link or perform an action
-                tg.openLink('https://example.com/settings');
-            });
+            // Update settings status on page
+            function updateSettingsStatus(status) {
+                const statusElement = document.getElementById('settings-status');
+                if (statusElement) {
+                    statusElement.textContent = `Settings are currently: ${status}`;
+                }
+            }
 
             // Initialize the Telegram Web App
             tg.ready();
+
+            // Configure the settings button
+            configureSettingsButton();
+
+            // Initial settings button configuration
+            tg.settingsButton.setText('Enable');
+            tg.settingsButton.setColor('#00FF00');
         };
     </script>
 </head>
 <body>
-    <h1>Telegram Web App Settings Button</h1>
+    <div class="settings-container">
+        <h1>Settings Button Demo</h1>
+        <p id="settings-status">Settings are currently: Disabled</p>
+    </div>
 </body>
 </html>
