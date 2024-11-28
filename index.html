@@ -1,84 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App Settings Button</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex,nofollow" />
+    <script src="https://telegram.org/js/telegram-web-app.js?2"></script>
+    <script>
+        function setThemeClass() {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        }
+
+        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        setThemeClass();
+
+    </script>
+    <title></title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            --bg-color: var(--tg-theme-bg-color, #fff);
+            font-family: sans-serif;
+            background-color: var(--bg-color);
+            color: var(--tg-theme-text-color, #222);
+            font-size: 14px;
             margin: 0;
-            background-color: var(--tg-theme-bg-color);
-            color: var(--tg-theme-text-color);
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
         }
-        .settings-container {
+
+        body.gray {
+            background-color: var(--tg-theme-secondary-bg-color, #efefef);
+        }
+
+        a {
+            color: var(--tg-theme-link-color, #2678b6);
+        }
+
+        .btn {
+            font-size: 14px;
+            padding: 10px 17px;
+        }
+
+        .btn-primary {
+            background-color: var(--tg-theme-button-color, #50a8eb);
+            color: var(--tg-theme-button-text-color, #fff);
+            border: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            font-size: 14px;
+            margin: 15px 0;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--tg-theme-button-color, #50a8eb);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            cursor: pointer;
+        }
+
+        .main-container {
+            padding: 15px;
+        }
+
+        .list-header {
+            text-transform: uppercase;
+            font-size: .92em;
+            color: var(--tg-theme-hint-color, #ccc);
+            margin: 0 0 10px;
+        }
+
+        a.list-group-item,
+        button.list-group-item {
+            color: var(--tg-theme-text-color, #222);
+        }
+
+        .main-container p {
+            margin: 0 0 10px;
+        }
+
+        .main-container pre,
+        .main-container > .btn {
+            margin: 0 0 7px;
+        }
+
+        .main-container pre + .hint,
+        .main-container > .btn + .hint {
             text-align: center;
+            margin: 0 0 15px;
+        }
+
+        button[disabled] {
+            opacity: 0.6;
+            cursor: auto;
+            pointer-events: none;
+        }
+
+        button.close_btn {
+            /*position: fixed;*/
+            position: absolute;
+            left: 0;
+            right: 0; bottom: 0;
+            border-radius: 0;
+            margin: 0;
+            padding: 16px 20px;
+            text-transform: uppercase;
+        }
+
+        section {
+            padding: 15px;
+            text-align: center;
+            background-color: var(--bg-color, #ffffff);
+        }
+
+        section#top_sect {
+            background-color: var(--tg-theme-bg-color, #ffffff);
+        }
+
+        section#top_sect.second {
+            background-color: var(--tg-theme-secondary-bg-color, #efefef);
+        }
+
+        .hint {
+            font-size: .8em;
+            color: var(--tg-theme-hint-color, #a8a8a8);
+        }
+
+        .ok {
+            color: green;
+        }
+
+        .err {
+            color: red;
         }
     </style>
-    <script>
-        // Settings button state
-        let isSettingsEnabled = false;
-
-        window.onload = function() {
-            const tg = window.Telegram.WebApp;
-            
-            // Configure settings button
-            function configureSettingsButton() {
-                // Show the settings button
-                tg.settingsButton.show();
-
-                // Toggle settings button state
-                tg.settingsButton.onClick(() => {
-                    isSettingsEnabled = !isSettingsEnabled;
-                    
-                    // Update button appearance based on state
-                    if (isSettingsEnabled) {
-                        tg.settingsButton.setText('Disable');
-                        tg.settingsButton.setColor('#FF0000');
-                        
-                        // Additional actions when enabled
-                        console.log('Settings Enabled');
-                        updateSettingsStatus('Enabled');
-                    } else {
-                        tg.settingsButton.setText('Enable');
-                        tg.settingsButton.setColor('#00FF00');
-                        
-                        // Additional actions when disabled
-                        console.log('Settings Disabled');
-                        updateSettingsStatus('Disabled');
-                    }
-                });
-            }
-
-            // Update settings status on page
-            function updateSettingsStatus(status) {
-                const statusElement = document.getElementById('settings-status');
-                if (statusElement) {
-                    statusElement.textContent = `Settings are currently: ${status}`;
-                }
-            }
-
-            // Initialize the Telegram Web App
-            tg.ready();
-
-            // Configure the settings button
-            configureSettingsButton();
-
-            // Initial settings button configuration
-            tg.settingsButton.setText('Enable');
-            tg.settingsButton.setColor('#00FF00');
-        };
-    </script>
 </head>
-<body>
-    <div class="settings-container">
-        <h1>Settings Button Demo</h1>
-        <p id="settings-status">Settings are currently: Disabled</p>
-    </div>
+
+<body class="" style="visibility: hidden;">
+
+<section id="top_sect" class="second">
+    <button onclick="DemoApp.toggleSettingsButton(this);">Show Settings Button</button>
+</section>
+
+<script type="application/javascript">
+    const DemoApp = {
+        SettingsButton: Telegram.WebApp.SettingsButton,
+
+        init: function() {
+            document.body.style.visibility = '';
+            Telegram.WebApp.ready();
+
+            Telegram.WebApp.SettingsButton.onClick(function() {
+                DemoApp.showAlert('Settings opened!');
+            });
+        },
+
+        toggleSettingsButton(el) {
+            if (DemoApp.SettingsButton.isVisible) {
+                DemoApp.SettingsButton.hide();
+                el.innerHTML = 'Show Settings Button';
+            } else {
+                DemoApp.SettingsButton.show();
+                el.innerHTML = 'Hide Settings Button';
+            }
+        },
+
+        showAlert(message) {
+            Telegram.WebApp.showAlert(message);
+        }
+    };
+
+    DemoApp.init();
+</script>
+
 </body>
 </html>
