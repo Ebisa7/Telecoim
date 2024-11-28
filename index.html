@@ -3,38 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Settings Button Example</title>
+  <title>Telegram Settings Button Example</title>
   <script src="https://telegram.org/js/telegram-web-app.js?2"></script>
   <script>
-    const showSettingsButton = () => {
-      if (Telegram.WebApp) {
-        Telegram.WebApp.showSettingsButton(true); // Show the settings button
-        Telegram.WebApp.onEvent('settingsButtonClicked', function() {
-          Telegram.WebApp.openLink("https://www.google.com"); // Navigate to Google
-        });
-      }
-    };
-
-    const hideSettingsButton = () => {
-      if (Telegram.WebApp) {
-        Telegram.WebApp.showSettingsButton(false); // Hide the settings button
+    const DemoApp = {
+      settingsButtonVisible: false,
+      toggleSettingsButton: function (button) {
+        this.settingsButtonVisible = !this.settingsButtonVisible;
+        if (this.settingsButtonVisible) {
+          Telegram.WebApp.showSettingsButton(true);
+          Telegram.WebApp.onEvent('settingsButtonClicked', function () {
+            Telegram.WebApp.openLink("https://www.google.com");
+          });
+          button.textContent = "Hide Settings Button";
+        } else {
+          Telegram.WebApp.showSettingsButton(false);
+          button.textContent = "Show Settings Button";
+        }
       }
     };
   </script>
 </head>
 <body>
-  <h1>Settings Button Example</h1>
-  <p>Click the buttons below to toggle the Telegram settings button.</p>
-
-  <button class="btn" onclick="showSettingsButton()">Show Settings Button</button>
-  <button  class="btn" onclick="hideSettingsButton()">Hide Settings Button</button>
+  <h1>Telegram Web App Example</h1>
+  <p>Click the button to toggle the Telegram settings button visibility.</p>
+  <button onclick="DemoApp.toggleSettingsButton(this);">Show Settings Button</button>
 </body>
-  <style>
-    .btn {
-      background-color: blue;
-      border-radius: 10px;
-      border: none;
-      color: white;
-      padding: 5px;
-    }
 </html>
