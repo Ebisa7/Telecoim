@@ -3,24 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Always Active Settings Button</title>
+  <title>Settings Button Example</title>
   <script src="https://telegram.org/js/telegram-web-app.js?2"></script>
   <script>
-    window.onload = function() {
+    const showSettingsButton = () => {
       if (Telegram.WebApp) {
-        // Ensure the settings button is always shown
-        Telegram.WebApp.showSettingsButton(true);
-
-        // Override its behavior to navigate to Google on click
-        Telegram.WebApp.SettingsButton.onClick(function() {
-          window.location.href = "https://www.google.com";
+        Telegram.WebApp.showSettingsButton(true); // Show the settings button
+        Telegram.WebApp.onEvent('settingsButtonClicked', function() {
+          Telegram.WebApp.openLink("https://www.google.com"); // Navigate to Google
         });
+      }
+    };
+
+    const hideSettingsButton = () => {
+      if (Telegram.WebApp) {
+        Telegram.WebApp.showSettingsButton(false); // Hide the settings button
       }
     };
   </script>
 </head>
 <body>
-  <h1>Welcome!</h1>
-  <p>The settings button is always visible. Click it to navigate to Google.</p>
+  <h1>Settings Button Example</h1>
+  <p>Click the buttons below to toggle the Telegram settings button.</p>
+
+  <button class="btn" onclick="showSettingsButton()">Show Settings Button</button>
+  <button  class="btn" onclick="hideSettingsButton()">Hide Settings Button</button>
 </body>
+  <style>
+    .btn {
+      background-color: blue;
+      border-radius: 10px;
+      border: none;
+      color: white;
+      padding: 5px;
+    }
 </html>
