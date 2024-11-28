@@ -16,7 +16,6 @@
 
         Telegram.WebApp.onEvent('themeChanged', setThemeClass);
         setThemeClass();
-
     </script>
     <title></title>
     <style>
@@ -101,7 +100,6 @@
         }
 
         button.close_btn {
-            /*position: fixed;*/
             position: absolute;
             left: 0;
             right: 0; bottom: 0;
@@ -155,8 +153,8 @@
             Telegram.WebApp.ready();
 
             Telegram.WebApp.SettingsButton.onClick(function() {
-    Telegram.WebApp.openLink('settings.html');
-});
+                // Redirect to settings.html instead of showing an alert
+                window.location.href = "settings.html";
             });
         },
 
@@ -168,10 +166,6 @@
                 DemoApp.SettingsButton.show();
                 el.innerHTML = 'Hide Settings Button';
             }
-        },
-
-        showAlert(message) {
-            Telegram.WebApp.showAlert(message);
         }
     };
 
