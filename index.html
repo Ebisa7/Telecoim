@@ -58,13 +58,13 @@
 <body>
     <!-- Code Input Editor -->
     <div id="editor">
-        <textarea id="codeInput" placeholder="Write your Telegram WebApp code here (HTML/JS)..."></textarea>
+        <textarea id="codeInput" placeholder="Write your HTML/JS code for Telegram Bot API here..."></textarea>
         <button id="runButton">Run</button>
     </div>
 
     <!-- Code Preview -->
     <div id="preview">
-        <iframe id="output"></iframe>
+        <iframe id="output" allow="*"></iframe>
     </div>
 
     <script>
@@ -87,27 +87,27 @@
         runButton.addEventListener('click', () => {
             const code = codeInput.value;
 
-            // Inject Telegram WebApp context into user code
-            const userCode = `
-                <script src="https://telegram.org/js/telegram-web-app.js"></script>
-                <script>
-                    // Access Telegram WebApp API
-                    const telegram = window.Telegram.WebApp;
-
-                    // Auto expand and initialize
-                    telegram.expand();
-                    telegram.ready();
-
-                    // User script starts here
-                    ${code}
-                </script>
+            // Wrap the entered code with the Telegram WebApp SDK initialization code
+            const wrappedCode = `
+                <html>
+                    <head>
+                        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+                    </head>
+                    <body>
+                        <script>
+                            window.Telegram.WebApp.expand();
+                            window.Telegram.WebApp.BackButton.show();
+                            // Your entered code will go here:
+                            ${code}
+                        </script>
+                    </body>
+                </html>
             `;
 
-            // Use Blob URL for unrestricted execution
-            const blob = new Blob([userCode], { type: 'text/html' });
-            const blobURL = URL.createObjectURL(blob);
+            // Use data URI to load the wrapped code
+            const dataURI = `data:text/html;charset=utf-8,${encodeURIComponent(wrappedCode)}`;
 
-            iframe.src = blobURL; // Load user code into iframe
+            iframe.src = dataURI; // Load user code into iframe
             editor.style.display = 'none';
             preview.style.display = 'flex';
         });
