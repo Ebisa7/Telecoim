@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Button Example</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        function setSettingsButton() {
-            const tg = window.Telegram.WebApp;
-            
-            // Show the settings button
-            tg.settingsButton.show();
-            
-            // Set an event handler for when settings button is clicked
-            tg.settingsButton.onClick(() => {
-                // Example action when settings button is clicked
-                tg.openLink('https://google.com');
-            });
-        }
-
         window.onload = function() {
             const tg = window.Telegram.WebApp;
+
+            // Show the settings button
+            tg.settingsButton.show();
+
+            // Set an event handler for when the settings button is clicked
+            tg.settingsButton.onClick(() => {
+                // Open your settings link or perform an action
+                tg.openLink('https://example.com/settings');
+            });
+
+            // Initialize the Telegram Web App
             tg.ready();
-            setSettingsButton();
         };
     </script>
 </head>
 <body>
-    <h1>Telegram Web App Settings Button Example</h1>
+    <h1>Telegram Web App Settings Button</h1>
 </body>
 </html>
