@@ -1,38 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegram Settings Button Example</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-    const DemoApp = {
-      settingsButtonVisible: false,
-      toggleSettingsButton: function (button) {
-        this.settingsButtonVisible = !this.settingsButtonVisible;
-        if (this.settingsButtonVisible) {
-          Telegram.WebApp.showSettingsButton(true);
-          // Set the event listener for the settings button
-          Telegram.WebApp.onEvent('settingsButtonClicked', function () {
-            // Action when settings button is clicked
-            Telegram.WebApp.openLink("https://www.google.com");
-          });
-          button.textContent = "Hide Settings Button";
-        } else {
-          Telegram.WebApp.showSettingsButton(false);
-          button.textContent = "Show Settings Button";
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        function setSettingsButton() {
+            const tg = window.Telegram.WebApp;
+            
+            // Show the settings button
+            tg.settingsButton.show();
+            
+            // Set an event handler for when settings button is clicked
+            tg.settingsButton.onClick(() => {
+                // Example action when settings button is clicked
+                tg.openLink('https://google.com');
+            });
         }
-      }
-    };
 
-    window.onload = function () {
-      Telegram.WebApp.ready(); // Ensure Telegram WebApp API is ready
-    };
-  </script>
+        window.onload = function() {
+            const tg = window.Telegram.WebApp;
+            tg.ready();
+            setSettingsButton();
+        };
+    </script>
 </head>
 <body>
-  <h1>Telegram Web App Example</h1>
-  <p>Click the button below to toggle the Telegram settings button visibility:</p>
-  <button onclick="DemoApp.toggleSettingsButton(this);">Show Settings Button</button>
+    <h1>Telegram Web App Settings Button Example</h1>
 </body>
 </html>
