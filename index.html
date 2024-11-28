@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Code Runner</title>
+    <title>Telegram WebApp Code Runner</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body, html {
@@ -72,7 +72,7 @@
         const telegram = window.Telegram.WebApp;
         telegram.expand(); // Expand the WebApp to full height
         telegram.BackButton.show();
-        
+
         // Elements
         const editor = document.getElementById('editor');
         const preview = document.getElementById('preview');
@@ -86,7 +86,12 @@
         // Run button click event
         runButton.addEventListener('click', () => {
             const code = codeInput.value;
-            iframe.srcdoc = code;
+
+            // Use Blob URL to enable full capabilities
+            const blob = new Blob([code], { type: 'text/html' });
+            const blobURL = URL.createObjectURL(blob);
+
+            iframe.src = blobURL; // Load user code into iframe
             editor.style.display = 'none';
             preview.style.display = 'flex';
         });
@@ -95,6 +100,7 @@
         telegram.BackButton.onClick(() => {
             preview.style.display = 'none';
             editor.style.display = 'flex';
+            iframe.src = ''; // Clear iframe content for safety
         });
     </script>
 </body>
