@@ -68,7 +68,7 @@
     </div>
 
     <script>
-        // Telegram Web App API setup
+        // Telegram WebApp API setup
         const telegram = window.Telegram.WebApp;
         telegram.expand(); // Expand the WebApp to full height
         telegram.BackButton.show();
@@ -87,7 +87,7 @@
         runButton.addEventListener('click', () => {
             const code = codeInput.value;
 
-            // Wrap the entered code with the Telegram WebApp SDK initialization code
+            // Wrap entered code with necessary WebApp setup
             const wrappedCode = `
                 <html>
                     <head>
@@ -104,7 +104,7 @@
                 </html>
             `;
 
-            // Use data URI to load the wrapped code
+            // Create data URI for the iframe
             const dataURI = `data:text/html;charset=utf-8,${encodeURIComponent(wrappedCode)}`;
 
             iframe.src = dataURI; // Load user code into iframe
