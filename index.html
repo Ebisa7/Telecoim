@@ -1,20 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegram User Info</title>
-  <link rel="stylesheet" href="wallet.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Code Runner</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        #editor, #preview {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+        #editor {
+            display: flex;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        #codeInput {
+            width: 100%;
+            height: 70%;
+            font-family: monospace;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        #runButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #0088cc;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #runButton:hover {
+            background-color: #005f99;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- User Info Section -->
-    <div class="user-info">
-      <img id="user-photo" src="" alt="Profile Picture">
-      <h2 id="user-name">Loading...</h2>
+    <!-- Code Input Editor -->
+    <div id="editor">
+        <textarea id="codeInput" placeholder="Write your HTML/JS code for Telegram Bot API here..."></textarea>
+        <button id="runButton">Run</button>
     </div>
-  </div>
 
-  <script src="wallet.js"></script>
+    <!-- Code Preview -->
+    <div id="preview">
+        <iframe id="output"></iframe>
+    </div>
+
+    <script>
+        // Telegram Web App API setup
+        const telegram = window.Telegram.WebApp;
+        telegram.expand(); // Expand the WebApp to full height
+        telegram.BackButton.show();
+        
+        // Elements
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+        const runButton = document.getElementById('runButton');
+        const codeInput = document.getElementById('codeInput');
+        const iframe = document.getElementById('output');
+
+        // Show editor by default
+        editor.style.display = 'flex';
+
+        // Run button click event
+        runButton.addEventListener('click', () => {
+            const code = codeInput.value;
+            iframe.srcdoc = code;
+            editor.style.display = 'none';
+            preview.style.display = 'flex';
+        });
+
+        // Telegram back button event
+        telegram.BackButton.onClick(() => {
+            preview.style.display = 'none';
+            editor.style.display = 'flex';
+        });
+    </script>
 </body>
 </html>
