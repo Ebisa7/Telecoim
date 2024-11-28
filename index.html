@@ -6,15 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Telegram Settings Button</title>
   <script>
-    window.onload = function() {
-      if (window.Telegram) {
-        Telegram.WebApp.setTitle("My Web App");
-        Telegram.WebApp.showSettingsButton(true); // Always show settings button
-        Telegram.WebApp.onEvent('settingsButtonClicked', function() {
-          window.location.href = "https://www.google.com"; // Redirect to Google
-        });
-      }
-    }
+    SettingsButton: Telegram.WebApp.SettingsButton,
+       Telegram.WebApp.SettingsButton.onClick(function() {
+                window.location.href = "https://www.google.com"; // Redirect to Google
   </script>
 </head>
 <body>
